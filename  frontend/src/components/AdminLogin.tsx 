@@ -1,0 +1,94 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Card, CardBody, Input, Button, Chip } from "@heroui/react";
+import { Shield, Key } from "lucide-react";
+import { API_URL } from "@/lib/3xui";
+
+export default function AdminLogin() {
+  const [token, setToken] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  const handleLogin = async () => {
+    if (!token.trim()) return;
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch(`${API_URL}/api/admin/verify`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token }),
+      });
+
+      const result = await res.json();
+
+      if (res.ok && result.success) {
+        localStorage.setItem("admin_token", token);
+        router.push("/admin");
+      } else {
+        setError("Token si sahihi au server haupo");
+      }
+    } catch (err) {
+      setError("Imeshindwa kuungana na server");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <Card className="w-full max-w-md bg-neutral-900 border-neutral-800">
+        <CardBody className="space-y-6 p-8">
+          <div className="text-center space-y-2">
+            <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto">
+              <Shield size={32} className="text-white" />
+            </div>
+            <h1 className="text-2xl font-bold text-white">Admin Login</h1>
+            <p className="text-neutral-400 text-sm">
+              Ingia kwa kutumia API Token ya 3x-ui
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            <Input
+              type="password"
+              label="API Token"
+              placeholder="Weka API Token..."
+              value={token}
+              onChange={(e) => setToken(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+              startContent={<Key size={18} className="text-neutral-500" />}
+              variant="bordered"
+              size="lg"
+            />
+
+            {error && (
+              <Chip color="danger" variant="flat" className="w-full">
+                {error}
+              </Chip>
+            )}
+
+            <Button
+              color="primary"
+              size="lg"
+              className="w-full bg-gradient-to-r from-blue-600 to-purple-600"
+              onPress={handleLogin}
+              isLoading={loading}
+            >
+              {loading ? "Inaingia..." : "Login"}
+            </Button>
+          </div>
+
+          <div className="text-center text-xs text-neutral-500">
+            Token inapatikana kwenye 3x-ui panel &gt; Settings &gt; API Token
+          </div>
+        </CardBody>
+      </Card>
+    </div>
+  );
+}
