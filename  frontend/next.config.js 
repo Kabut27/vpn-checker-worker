@@ -1,0 +1,14 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'export',
+  distDir: 'dist',
+  images: {
+    unoptimized: true,
+  },
+  // API endpoint ya worker
+  env: {
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'https://vpn-checker-api.your-subdomain.workers.dev',
+  },
+};
+
+module.exports = nextConfig;
