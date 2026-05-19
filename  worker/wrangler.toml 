@@ -1,0 +1,10 @@
+name = "vpn-checker-api"
+main = "src/index.ts"
+compatibility_date = "2024-05-19"
+
+# Environment variables (weka kwenze Cloudflare dashboard)
+[vars]
+# XUI_PANEL_URL = "https://your-domain.com:2053"
+
+# Secrets (weka kwa: wrangler secret put XUI_API_TOKEN)
+# XUI_API_TOKEN = ""
