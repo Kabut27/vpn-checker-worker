@@ -1,0 +1,35 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import AdminLogin from "@/components/AdminLogin";
+import AdminDashboard from "@/components/AdminDashboard";
+import { Spinner } from "@heroui/react";
+
+export default function AdminPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [checking, setChecking] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("admin_token");
+    if (token) {
+      setIsAuthenticated(true);
+    }
+    setChecking(false);
+  }, []);
+
+  if (checking) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-neutral-950">
+        <Spinner size="lg" color="primary" />
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <AdminLogin />;
+  }
+
+  return <AdminDashboard />;
+}
