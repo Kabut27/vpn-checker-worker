@@ -1,0 +1,19 @@
+import UserCheck from "@/components/UserCheck";
+
+export default function Home() {
+  return (
+    <main className="min-h-screen bg-neutral-950 flex items-center justify-center p-4">
+      <div className="w-full max-w-lg">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
+            VPN Checker
+          </h1>
+          <p className="text-neutral-400">
+            Angalia matumizi ya data na muda wa VPN yako
+          </p>
+        </div>
+        <UserCheck />
+      </div>
+    </main>
+  );
+}
