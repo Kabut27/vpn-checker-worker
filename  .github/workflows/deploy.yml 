@@ -1,4 +1,4 @@
-name: Deploy VPN Checker
+name: Deply VPN Checker
 
 on:
   push:
